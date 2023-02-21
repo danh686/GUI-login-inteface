@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+import hashlib
 
 class LoginWindow:
     def __init__(self):
@@ -30,7 +31,7 @@ class LoginWindow:
         attempts= 0
         usernameGet= usernameEntry.get()
         passwordGet= passwordEntry.get()
-        if self.valid(usernameGet, passwordGet) == False:
+        if self.valid_credentials(usernameGet, passwordGet) == False:
             messagebox.showinfo(title= "Error", message= "Incorrect username or password")
             usernameEntry.delete(0,END)
             passwordEntry.delete(0,END)
@@ -39,15 +40,16 @@ class LoginWindow:
         if attempts > 3: 
             messagebox.showinfo(message= "Too many attempts, press ok to exit")
             root.destroy()
-        elif self.valid(usernameGet, passwordGet) == True:
+        elif self.valid_credentials(usernameGet, passwordGet) == True:
             messagebox.showinfo(message= "Username and password accepted, press ok to exit")
             root.destroy()
 
-    def valid(self,username, password): 
+    def valid_credentials(self,username, password): 
         with open("Login data.txt", "r") as file:
             for row in file:
                 field= row.split(",")
-                if username == field[0].strip() and password == field[1].strip():
+                hash= hashlib.sha256(password.encode('UTF-8'))
+                if username == field[0].strip() and hash.hexdigest() == field[1].strip():
                     return True 
         return False 
 
@@ -88,17 +90,18 @@ class RegisterWindow:
             passwordEntry.delete(0,END)
             passwordConfirm.delete(0,END)
             usernameEntry.focus_set()
-        elif self.exists(usernameEntry.get()):
+        elif self.already_exists(usernameEntry.get()):
             messagebox.showinfo(message= "Error: Username already exists")
             usernameEntry.delete(0,END)
             usernameEntry.focus_set()
         else:
             with open("Login data.txt", "a") as file:
-                file.write("\n"+usernameEntry.get()+","+passwordEntry.get())
+                hash= hashlib.sha256(passwordEntry.get().encode('UTF-8'))
+                file.write("\n"+usernameEntry.get()+","+hash.hexdigest())
             messagebox.showinfo(message= "New account confirmed, press ok to exit")
             root.destroy()
         
-    def exists(self,username):
+    def already_exists(self,username):
         with open("Login data.txt", "r") as file:
             for row in file:
                 field= row.split(",")
