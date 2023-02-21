@@ -105,6 +105,7 @@ class RegisterWindow:
                 if username == field[0].strip():
                     return True
         return False
-                  
-LoginWindow()
+
+if __name__ == "__main__":
+    LoginWindow()
 
