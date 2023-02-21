@@ -31,7 +31,7 @@ class LoginWindow:
         attempts= 0
         usernameGet= usernameEntry.get()
         passwordGet= passwordEntry.get()
-        if self.valid_credentials(usernameGet, passwordGet) == False:
+        if not self.valid_credentials(usernameGet, passwordGet):
             messagebox.showinfo(title= "Error", message= "Incorrect username or password")
             usernameEntry.delete(0,END)
             passwordEntry.delete(0,END)
@@ -40,7 +40,7 @@ class LoginWindow:
         if attempts > 3: 
             messagebox.showinfo(message= "Too many attempts, press ok to exit")
             root.destroy()
-        elif self.valid_credentials(usernameGet, passwordGet) == True:
+        elif self.valid_credentials(usernameGet, passwordGet):
             messagebox.showinfo(message= "Username and password accepted, press ok to exit")
             root.destroy()
 
