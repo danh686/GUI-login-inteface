@@ -1,29 +1,29 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import messagebox
 import hashlib
 
 class LoginWindow:
     def __init__(self):
-        root= Tk()
+        root= tk.Tk()
         root.geometry("300x300")
         root.resizable(False, False)
         root.title("Login")
         root.configure(bg= "light blue")
-        frameHeading= Frame(root)
+        frameHeading= tk.Frame(root)
         frameHeading.grid(row= 0, column= 0,columnspan= 2,padx= 30, pady=10)
         frameHeading.configure(bg= "light blue")
-        frameEntry= Frame(root)
+        frameEntry= tk.Frame(root)
         frameEntry.grid(row= 1, column=1, columnspan=2, padx= 30, pady=10)
         frameEntry.configure(bg= "light blue")
-        Label(frameHeading, text= "Login", font= ("Arial",14)).grid(row= 0, column= 0, padx= 10, pady= 10)
-        Label(frameEntry, text= "Username").grid(row= 0, column=0, padx= 10, pady= 10)
-        Label(frameEntry, text= "Password").grid(row= 1, column=0, padx= 10, pady= 10)
-        usernameEntry= Entry(frameEntry, width= 15)
+        tk.Label(frameHeading, text= "Login", font= ("Arial",14)).grid(row= 0, column= 0, padx= 10, pady= 10)
+        tk.Label(frameEntry, text= "Username").grid(row= 0, column=0, padx= 10, pady= 10)
+        tk.Label(frameEntry, text= "Password").grid(row= 1, column=0, padx= 10, pady= 10)
+        usernameEntry= tk.Entry(frameEntry, width= 15)
         usernameEntry.grid(row= 0, column= 1, padx= 10, pady= 10)
-        passwordEntry= Entry(frameEntry, width= 15, show= "*")
+        passwordEntry= tk.Entry(frameEntry, width= 15, show= "*")
         passwordEntry.grid(row= 1, column= 1, padx= 10, pady= 10)
-        Button(root, text= "Register", width= 7, command= RegisterWindow).grid(row= 2, column= 1, padx=10, pady=10)
-        Button(root, text= "Login", width= 7, command= lambda : self.login(root, usernameEntry, passwordEntry)).grid(row= 2, column= 2, padx= 10, pady= 10)
+        tk.Button(root, text= "Register", width= 7, command= RegisterWindow).grid(row= 2, column= 1, padx=10, pady=10)
+        tk.Button(root, text= "Login", width= 7, command= lambda : self.login(root, usernameEntry, passwordEntry)).grid(row= 2, column= 2, padx= 10, pady= 10)
         usernameEntry.focus_set()
         root.mainloop()
     
@@ -33,8 +33,8 @@ class LoginWindow:
         passwordGet= passwordEntry.get()
         if not self.valid_credentials(usernameGet, passwordGet):
             messagebox.showinfo(title= "Error", message= "Incorrect username or password")
-            usernameEntry.delete(0,END)
-            passwordEntry.delete(0,END)
+            usernameEntry.delete(0,tk.END)
+            passwordEntry.delete(0,tk.END)
             usernameEntry.focus_set()
             attempts += 1
         if attempts > 3: 
@@ -55,29 +55,29 @@ class LoginWindow:
 
 class RegisterWindow:
     def __init__(self):
-        root= Tk()
+        root= tk.Tk()
         root.resizable(False, False)
         root.title("Register")
         root.configure(bg= "light blue")
         root.attributes("-topmost", True)
         root.geometry("300x300")
-        frameHeading= Frame(root)
+        frameHeading= tk.Frame(root)
         frameHeading.grid(row= 0, column=0, columnspan=2, padx=10, pady=10)
         frameHeading.configure(bg= "light blue")
-        frameEntry= Frame(root)
+        frameEntry= tk.Frame(root)
         frameEntry.grid(row= 1, column=1, columnspan=2, padx= 10, pady=10)
         frameEntry.configure(bg= "light blue")
-        usernameEntry= Entry(frameEntry, width= 15)
+        usernameEntry= tk.Entry(frameEntry, width= 15)
         usernameEntry.grid(row= 0, column= 1, padx= 10, pady= 10)
-        passwordEntry= Entry(frameEntry, width= 15, show= "*")
+        passwordEntry= tk.Entry(frameEntry, width= 15, show= "*")
         passwordEntry.grid(row= 1, column= 1, padx= 10, pady= 10)
-        Label(frameHeading, text= "Register", font= ("Arial",14)).grid(row= 0, column= 0, padx= 10, pady= 10)
-        Label(frameEntry, text= "Confirm password").grid(row= 2, column= 0, padx=10, pady=10)
-        Label(frameEntry, text= "Enter a username").grid(row= 0, column=0, padx= 10, pady= 10)
-        Label(frameEntry, text= "Enter a password").grid(row= 1, column=0, padx= 10, pady= 10)
-        passwordConfirm= Entry(frameEntry, width=15, show= "*")
+        tk.Label(frameHeading, text= "Register", font= ("Arial",14)).grid(row= 0, column= 0, padx= 10, pady= 10)
+        tk.Label(frameEntry, text= "Confirm password").grid(row= 2, column= 0, padx=10, pady=10)
+        tk.Label(frameEntry, text= "Enter a username").grid(row= 0, column=0, padx= 10, pady= 10)
+        tk.Label(frameEntry, text= "Enter a password").grid(row= 1, column=0, padx= 10, pady= 10)
+        passwordConfirm= tk.Entry(frameEntry, width=15, show= "*")
         passwordConfirm.grid(row= 2, column= 1, padx=10, pady=10)
-        confirmRegisterButton= Button(root, text= "Register", width= 7, command= lambda : self.confirmRegister(root,passwordConfirm, usernameEntry, passwordEntry))
+        confirmRegisterButton= tk.Button(root, text= "Register", width= 7, command= lambda : self.confirmRegister(root,passwordConfirm, usernameEntry, passwordEntry))
         confirmRegisterButton.grid(row= 3, column= 2, padx= 10, pady=10)
         usernameEntry.focus_set()
         root.mainloop()
@@ -87,12 +87,12 @@ class RegisterWindow:
             messagebox.showinfo(message= "Error: Please fill out all fields")
         elif passwordConfirm.get() != passwordEntry.get():
             messagebox.showinfo(message= "Error: Password could not be confirmed")
-            passwordEntry.delete(0,END)
-            passwordConfirm.delete(0,END)
+            passwordEntry.delete(0,tk.END)
+            passwordConfirm.delete(0,tk.END)
             usernameEntry.focus_set()
         elif self.already_exists(usernameEntry.get()):
             messagebox.showinfo(message= "Error: Username already exists")
-            usernameEntry.delete(0,END)
+            usernameEntry.delete(0,tk.END)
             usernameEntry.focus_set()
         else:
             with open("Login data.txt", "a") as file:
